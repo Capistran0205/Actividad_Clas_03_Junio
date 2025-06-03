@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Second App</string>
+    <string name="BIENVENIDA">BIENVENIDO A LA APLICACIÓN I.T.S.X MÓVIL
+        <br>PRESIONE EL BOTÓN PARA CONTINUAR</br></string>
+</resources>
