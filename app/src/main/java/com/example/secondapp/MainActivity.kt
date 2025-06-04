@@ -32,17 +32,33 @@ class MainActivity : AppCompatActivity() {
         editTextPassword = findViewById(R.id.editTextPassword)
 
         // Configurar el Spinner con datos
-        val databases = arrayOf("MySQL", "PostgreSQL", "Oracle", "SQL Server", "SQLite")
-        val adapter =
-            android.widget.ArrayAdapter(this, android.R.layout.simple_spinner_item, databases)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerDatabases.adapter = adapter
+        val validUsers = mapOf(
+            "admin" to "123456",
+            "prodriguez" to "234567",
+            "jorduno" to "345678"
+        )
+
+        // HashMap con información completa de usuarios
+        val userProfiles = mapOf(
+            "admin" to mapOf(
+                "nombre" to "Administrador Root",
+                "telefono" to "555-0000"
+            ),
+            "prodriguez" to mapOf(
+                "nombre" to "Pedro Rodriguez",
+                "telefono" to "555-1234"
+            ),
+            "jorduno" to mapOf(
+                "nombre" to "Jorge Duno",
+                "telefono" to "555-5678"
+            )
+        )
 
         // Objeto para obtener el evento del botón
         val secondScreen = findViewById<Button>(R.id.btnConnect)
         secondScreen.setOnClickListener() {
             // SEGUNDO: Ahora sí puedes usar las variables después de inicializarlas
-            val database = spinnerDatabases.selectedItem.toString()
+            // val database = spinnerDatabases.selectedItem.toString()
             val username = editTextUser.text.toString().trim()
             val password = editTextPassword.text.toString().trim()
 
@@ -50,13 +66,20 @@ class MainActivity : AppCompatActivity() {
             /*Toast.makeText(this, "Usuario: '$username', Password: '$password'", Toast.LENGTH_LONG)
                 .show()*/
 
-            if (username == "admin" && password == "123456") {
+            if (validUsers[username] == password) {
                 Toast.makeText(
                     this,
                     "Credenciales correctas, abriendo segunda pantalla...",
                     Toast.LENGTH_SHORT
                 ).show()
-                val intent = Intent(this, MainActivity2::class.java)
+
+                // Crear Intent y pasar datos del usuario autenticado
+                val intent = Intent(this, ShowData::class.java)
+                intent.putExtra("USUARIO", username)
+                intent.putExtra("NOMBRE", userProfiles[username]?.get("nombre") ?: "Usuario")
+                intent.putExtra("TELEFONO", userProfiles[username]?.get("telefono") ?: "")
+                // intent.putExtra("DATABASE", database)
+                // Iniciar la actividad
                 startActivity(intent)
             } else {
                 Toast.makeText(
